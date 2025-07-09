@@ -1,24 +1,48 @@
 import type { Metadata } from 'next'
 import { Inter, Poppins } from 'next/font/google'
 import './globals.css'
+import { AuthProvider } from '@/context/AuthContext'
+import { GameProvider } from '@/context/GameContext'
 
 const inter = Inter({ 
   subsets: ['latin'],
-  variable: '--font-inter',
-  display: 'swap',
+  variable: '--font-inter'
 })
 
 const poppins = Poppins({ 
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
-  variable: '--font-poppins',
-  display: 'swap',
+  variable: '--font-poppins'
 })
 
 export const metadata: Metadata = {
-  title: 'AyvuLab - Aprenda Espanhol da América Latina',
-  description: 'Plataforma revolucionária para aprender espanhol com IA, gamificação e imersão cultural da América Latina',
-  keywords: 'espanhol, américa latina, aprender idiomas, IA, gamificação, AyvuLab',
+  title: 'AyvuLab - Laboratório de Espanhol Latino-Americano',
+  description: 'Aprenda espanhol através da rica cultura da América Latina com IA, gamificação e imersão cultural.',
+  keywords: 'espanhol, américa latina, aprendizado, cultura, gamificação, IA',
+  authors: [{ name: 'AyvuLab Team' }],
+  creator: 'AyvuLab',
+  publisher: 'AyvuLab',
+  robots: 'index, follow',
+  openGraph: {
+    type: 'website',
+    locale: 'pt_BR',
+    url: 'https://ayvulab.com',
+    title: 'AyvuLab - Laboratório de Espanhol Latino-Americano',
+    description: 'Aprenda espanhol através da rica cultura da América Latina com IA, gamificação e imersão cultural.',
+    siteName: 'AyvuLab',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AyvuLab - Laboratório de Espanhol Latino-Americano',
+    description: 'Aprenda espanhol através da rica cultura da América Latina com IA, gamificação e imersão cultural.',
+    creator: '@ayvulab',
+  },
+  icons: {
+    icon: '/favicon.ico',
+    shortcut: '/favicon-16x16.png',
+    apple: '/apple-touch-icon.png',
+  },
+  manifest: '/site.webmanifest',
 }
 
 export default function RootLayout({
@@ -27,13 +51,13 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="pt-BR" className={`${inter.variable} ${poppins.variable}`}>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
-      </head>
-      <body className={`${inter.className} antialiased gradient-latino min-h-screen`}>
-        {children}
+    <html lang="pt-BR">
+      <body className={`${inter.variable} ${poppins.variable} antialiased`}>
+        <AuthProvider>
+          <GameProvider>
+            {children}
+          </GameProvider>
+        </AuthProvider>
       </body>
     </html>
   )

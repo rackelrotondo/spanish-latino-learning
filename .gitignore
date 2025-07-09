@@ -1,2 +1,8 @@
 node_modules
+<<<<<<< HEAD
 backup
+=======
+.vercel
+
+/generated/prisma
+>>>>>>> 8815a72 (atualizacoes)

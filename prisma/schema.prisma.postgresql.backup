@@ -1,0 +1,168 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               String   @id @default(uuid())
+  email            String   @unique
+  name             String
+  passwordHash     String   @map("password_hash")
+  level            Int      @default(1)
+  totalXP          Int      @default(0) @map("total_xp")
+  currentStreak    Int      @default(0) @map("current_streak")
+  joinedAt         DateTime @default(now()) @map("joined_at")
+  lastActivity     DateTime @default(now()) @map("last_activity")
+  settings         Json?
+  
+  // Relacionamentos
+  progress         UserProgress[]
+  completedLessons LessonCompletion[]
+  badges           UserBadge[]
+  unlockedCountries UnlockedCountry[]
+  
+  @@map("users")
+}
+
+model Country {
+  code                String  @id @db.VarChar(2)
+  name                String
+  nameSpanish         String  @map("name_spanish")
+  capital             String
+  population          String
+  flagUrl             String  @map("flag_url")
+  requiredXP          Int     @map("required_xp")
+  difficulty          Difficulty
+  culturalComplexity  Int     @map("cultural_complexity")
+  linguisticVariation Int     @map("linguistic_variation")
+  svgPath             String  @map("svg_path") @db.Text
+  positionX           Int     @map("position_x")
+  positionY           Int     @map("position_y")
+  culturalData        Json    @map("cultural_data")
+  languageData        Json    @map("language_data")
+  createdAt           DateTime @default(now()) @map("created_at")
+  
+  // Relacionamentos
+  lessons           Lesson[]
+  userProgress      UserProgress[]
+  unlockedCountries UnlockedCountry[]
+  
+  @@map("countries")
+}
+
+model Lesson {
+  id              String      @id @default(uuid())
+  countryCode     String      @map("country_code") @db.VarChar(2)
+  title           String
+  type            LessonType
+  difficulty      Difficulty
+  estimatedTime   Int         @map("estimated_time")
+  xpReward        Int         @map("xp_reward")
+  orderIndex      Int         @map("order_index")
+  culturalIntro   Json        @map("cultural_intro")
+  questions       Json
+  isPublished     Boolean     @default(false) @map("is_published")
+  createdAt       DateTime    @default(now()) @map("created_at")
+  
+  // Relacionamentos
+  country     Country @relation(fields: [countryCode], references: [code])
+  completions LessonCompletion[]
+  
+  @@map("lessons")
+}
+
+model UserProgress {
+  id               String   @id @default(uuid())
+  userId           String   @map("user_id")
+  countryCode      String   @map("country_code") @db.VarChar(2)
+  lessonsCompleted Int      @default(0) @map("lessons_completed")
+  totalLessons     Int      @map("total_lessons")
+  xpEarned         Int      @default(0) @map("xp_earned")
+  lastActivity     DateTime @default(now()) @map("last_activity")
+  
+  // Relacionamentos
+  user    User    @relation(fields: [userId], references: [id])
+  country Country @relation(fields: [countryCode], references: [code])
+  
+  @@unique([userId, countryCode])
+  @@map("user_progress")
+}
+
+model LessonCompletion {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  lessonId    String   @map("lesson_id")
+  score       Int
+  xpEarned    Int      @map("xp_earned")
+  timeSpent   Int?     @map("time_spent")
+  completedAt DateTime @default(now()) @map("completed_at")
+  answers     Json
+  
+  // Relacionamentos
+  user   User   @relation(fields: [userId], references: [id])
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+  
+  @@unique([userId, lessonId])
+  @@map("lesson_completions")
+}
+
+model Badge {
+  id            String    @id @default(uuid())
+  name          String    @unique
+  description   String    @db.Text
+  icon          String
+  conditionType String    @map("condition_type")
+  conditionValue Json     @map("condition_value")
+  isActive      Boolean   @default(true) @map("is_active")
+  
+  // Relacionamentos
+  userBadges UserBadge[]
+  
+  @@map("badges")
+}
+
+model UserBadge {
+  id       String   @id @default(uuid())
+  userId   String   @map("user_id")
+  badgeId  String   @map("badge_id")
+  earnedAt DateTime @default(now()) @map("earned_at")
+  
+  // Relacionamentos
+  user  User  @relation(fields: [userId], references: [id])
+  badge Badge @relation(fields: [badgeId], references: [id])
+  
+  @@unique([userId, badgeId])
+  @@map("user_badges")
+}
+
+model UnlockedCountry {
+  id          String   @id @default(uuid())
+  userId      String   @map("user_id")
+  countryCode String   @map("country_code") @db.VarChar(2)
+  unlockedAt  DateTime @default(now()) @map("unlocked_at")
+  
+  // Relacionamentos
+  user    User    @relation(fields: [userId], references: [id])
+  country Country @relation(fields: [countryCode], references: [code])
+  
+  @@unique([userId, countryCode])
+  @@map("unlocked_countries")
+}
+
+enum Difficulty {
+  BEGINNER
+  INTERMEDIATE
+  ADVANCED
+  EXPERT
+}
+
+enum LessonType {
+  VOCABULARY
+  GRAMMAR
+  CULTURE
+  LISTENING
+}

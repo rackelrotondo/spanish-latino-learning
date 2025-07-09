@@ -278,3 +278,88 @@ section {
 .flag-glow {
   text-shadow: 0 0 10px rgba(205, 159, 131, 0.3);
 }
+
+/* Animações específicas para o mapa */
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  50% { transform: translateY(-10px) rotate(2deg); }
+}
+
+@keyframes sol-pulse {
+  0%, 100% { transform: scale(1) rotate(0deg); opacity: 1; }
+  50% { transform: scale(1.1) rotate(180deg); opacity: 0.8; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-sol-pulse {
+  animation: sol-pulse 3s ease-in-out infinite;
+}
+
+.animate-delay-500 {
+  animation-delay: 0.5s;
+}
+
+.animate-delay-1000 {
+  animation-delay: 1s;
+}
+
+.animate-delay-1500 {
+  animation-delay: 1.5s;
+}
+
+.animate-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animate-delay-2500 {
+  animation-delay: 2.5s;
+}
+
+/* Efeitos hover para países */
+.country-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transform-origin: center;
+}
+
+.country-hover:hover {
+  filter: brightness(1.2) saturate(1.3);
+  transform: scale(1.05);
+}
+
+/* Gradientes para diferentes regiões */
+.map-gradient-north {
+  background: linear-gradient(135deg, #cd9f83 0%, #b0623f 50%, #859e82 100%);
+}
+
+.map-gradient-south {
+  background: linear-gradient(135deg, #859e82 0%, #274f57 50%, #b0623f 100%);
+}
+
+/* Tooltip animado */
+.tooltip-enter {
+  animation: tooltipEnter 0.2s ease-out;
+}
+
+@keyframes tooltipEnter {
+  from {
+    opacity: 0;
+    transform: translateY(10px) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Pulso suave para elementos importantes */
+.pulse-soft {
+  animation: pulseSoft 2s infinite;
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
