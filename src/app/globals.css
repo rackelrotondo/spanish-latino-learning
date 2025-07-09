@@ -5,52 +5,276 @@
 /* Importar fontes do Google */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700;800&display=swap');
 
+/* Nova Paleta de Cores AyvuLab - Neutras e Quentes */
+:root {
+  /* Cores Principais */
+  --bege-quente: #cd9f83;
+  --marrom-medio: #b0623f;
+  --azul-escuro: #274f57;
+  --verde-suave: #859e82;
+  
+  /* Variações das cores principais */
+  --bege-claro: #e8d5c4;
+  --bege-escuro: #a67c5a;
+  --marrom-claro: #d4956f;
+  --marrom-escuro: #8b4a2f;
+  --azul-medio: #3a6b75;
+  --azul-claro: #4a7d87;
+  --verde-claro: #a4b5a1;
+  --verde-escuro: #6b7d68;
+  
+  /* Cores de apoio */
+  --branco-suave: #faf9f7;
+  --cinza-claro: #f5f3f0;
+  --cinza-medio: #8a8a8a;
+  --preto-suave: #2c2c2c;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
   }
   
   body {
-    font-family: 'Inter', sans-serif;
+    font-family: var(--font-inter), 'Inter', sans-serif;
     line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: var(--azul-escuro);
+    min-height: 100vh;
+    color: var(--branco-suave);
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Poppins', sans-serif;
+    font-family: var(--font-poppins), 'Poppins', sans-serif;
     font-weight: 600;
+    color: var(--branco-suave);
+  }
+  
+  p {
+    color: rgba(250, 249, 247, 0.9);
+  }
+  
+  * {
+    box-sizing: border-box;
   }
 }
 
 @layer components {
-  /* Componentes reutilizáveis */
+  /* Botões com nova paleta */
   .btn-primary {
-    @apply bg-latino-yellow text-black px-6 py-3 rounded-full font-semibold hover:bg-yellow-400 transition-all duration-200 transform hover:scale-105;
+    background-color: var(--bege-quente);
+    color: var(--azul-escuro);
+    @apply px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105 shadow-lg border-2 border-transparent;
+  }
+  
+  .btn-primary:hover {
+    background-color: var(--bege-escuro);
+    box-shadow: 0 8px 25px rgba(205, 159, 131, 0.3);
   }
   
   .btn-secondary {
-    @apply border-2 border-white text-white px-6 py-3 rounded-full font-semibold hover:bg-white/10 transition-all duration-200;
+    background-color: transparent;
+    color: var(--bege-quente);
+    border: 2px solid var(--bege-quente);
+    @apply px-6 py-3 rounded-full font-semibold transition-all duration-300;
   }
   
+  .btn-secondary:hover {
+    background-color: var(--bege-quente);
+    color: var(--azul-escuro);
+    box-shadow: 0 8px 25px rgba(205, 159, 131, 0.2);
+  }
+  
+  /* Cards com nova identidade */
   .card-glass {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-xl;
+    background-color: rgba(250, 249, 247, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(205, 159, 131, 0.3);
+    @apply rounded-xl p-6 transition-all duration-300;
   }
   
-  .gradient-latino {
-    @apply bg-gradient-to-br from-latino-blue via-latino-purple to-latino-red;
+  .card-glass:hover {
+    background-color: rgba(205, 159, 131, 0.15);
+    border-color: var(--bege-quente);
+    box-shadow: 0 10px 30px rgba(205, 159, 131, 0.2);
+    transform: translateY(-5px);
+  }
+  
+  /* Seções com cores específicas */
+  .section-primary {
+    background-color: var(--azul-escuro);
+    color: var(--branco-suave);
+  }
+  
+  .section-secondary {
+    background-color: var(--marrom-medio);
+    color: var(--branco-suave);
+  }
+  
+  .section-tertiary {
+    background-color: var(--verde-suave);
+    color: var(--branco-suave);
+  }
+  
+  .section-quaternary {
+    background-color: var(--bege-quente);
+    color: var(--azul-escuro);
+  }
+  
+  /* Header com nova identidade */
+  .header-ayvulab {
+    background-color: rgba(39, 79, 87, 0.95);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(205, 159, 131, 0.3);
+  }
+  
+  /* Elementos especiais */
+  .accent-bege {
+    color: var(--bege-quente);
+  }
+  
+  .accent-marrom {
+    color: var(--marrom-medio);
+  }
+  
+  .accent-verde {
+    color: var(--verde-suave);
+  }
+  
+  .bg-bege {
+    background-color: var(--bege-quente);
+  }
+  
+  .bg-marrom {
+    background-color: var(--marrom-medio);
+  }
+  
+  .bg-verde {
+    background-color: var(--verde-suave);
+  }
+  
+  .bg-azul {
+    background-color: var(--azul-escuro);
   }
 }
 
 @layer utilities {
   .text-shadow {
-    text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   }
   
+  .text-shadow-warm {
+    text-shadow: 0 2px 8px rgba(39, 79, 87, 0.4);
+  }
+  
+  /* Animações suaves */
   .animate-float {
     animation: float 3s ease-in-out infinite;
   }
+  
+  .animate-pulse-gentle {
+    animation: pulseGentle 2s ease-in-out infinite;
+  }
+  
+  .animate-sol-pulse {
+    animation: solPulse 3s ease-in-out infinite;
+  }
+  
+  /* Cores utilitárias */
+  .text-bege {
+    color: var(--bege-quente);
+  }
+  
+  .text-marrom {
+    color: var(--marrom-medio);
+  }
+  
+  .text-verde {
+    color: var(--verde-suave);
+  }
+  
+  .text-azul {
+    color: var(--azul-escuro);
+  }
+  
+  .border-bege {
+    border-color: var(--bege-quente);
+  }
+  
+  .border-marrom {
+    border-color: var(--marrom-medio);
+  }
+  
+  .border-verde {
+    border-color: var(--verde-suave);
+  }
 }
 
+/* Animações personalizadas */
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
+}
+
+@keyframes pulseGentle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes solPulse {
+  0%, 100% { 
+    opacity: 1; 
+    transform: scale(1);
+  }
+  50% { 
+    opacity: 0.9; 
+    transform: scale(1.05);
+  }
+}
+
+/* Efeitos especiais para o Sol de Mayo */
+.sol-glow {
+  box-shadow: 0 0 20px rgba(205, 159, 131, 0.4);
+}
+
+/* Responsividade */
+@media (max-width: 640px) {
+  .text-responsive {
+    font-size: 2rem;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .text-responsive {
+    font-size: 3rem;
+  }
+}
+
+@media (min-width: 1025px) {
+  .text-responsive {
+    font-size: 4rem;
+  }
+}
+
+/* Garantir contraste em todos os elementos */
+section {
+  color: var(--branco-suave);
+}
+
+/* Estilos específicos para as bandeiras */
+.flag-emoji {
+  font-size: 5rem;
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+  transition: all 0.3s ease;
+}
+
+.flag-emoji:hover {
+  transform: scale(1.1);
+  filter: drop-shadow(0 6px 12px rgba(205, 159, 131, 0.4));
+}
+
+/* Efeito de destaque nas bandeiras */
+.flag-glow {
+  text-shadow: 0 0 10px rgba(205, 159, 131, 0.3);
 }
